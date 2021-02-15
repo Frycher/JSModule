@@ -1,0 +1,180 @@
+html {
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: 100%;
+  min-width: 320px;
+  line-height: 1.5;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+a:focus,
+input:focus,
+button:focus,
+textarea:focus {
+  outline: none;
+}
+
+span,
+button,
+b {
+  display: inline-block;
+}
+
+b {
+  font-weight: normal;
+}
+
+i {
+  font-style: normal;
+}
+
+input,
+button,
+textarea {
+  background: none;
+  outline: none;
+  border: none;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+.content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 50px auto 50px;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+  overflow-y: auto;
+  width: 400px;
+  position: relative;
+}
+
+.render__times {
+  position: absolute;
+  width: 100%;
+}
+
+.times__container {
+  position: relative;
+  width: 200px;
+}
+
+.current__times {
+  position: absolute;
+  background: #E2ECF5;
+}
+
+.current__time {
+  position: absolute;
+  left: -40px;
+  right: 0;
+  z-index: 10;
+}
+
+.half__hour {
+  font-size: 12px;
+}
+
+.whole__time, .half__hour {
+  height: 60px;
+  color: #afafaf;
+}
+
+.whole__time {
+  font-size: 16px;
+  width: 100%;
+  position: relative;
+}
+
+.whole__time::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #d8dcdf;
+}
+
+.current__item {
+  padding: 7px 5px 7px 5px;
+}
+
+.current__item::before {
+  content: '';
+  height: 100%;
+  width: 2px;
+  background: #6E9ECF;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.current__item:hover .close__time {
+  opacity: 1;
+  visibility: visible;
+}
+
+.current__item .current__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.current__item .close__time {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: absolute;
+  right: -50px;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  font-size: 22px;
+  cursor: pointer;
+  width: 40px;
+  background: #979191;
+  display: none;
+}
+
+.current__item .close__time:hover {
+  background: #b0abab;
+}
