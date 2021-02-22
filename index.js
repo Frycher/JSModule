@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const times = [
+  const BASE_MODEL_DATA = [
     { start: 0, duration: 15, title: 'Exercise' },
     { start: 25, duration: 30, title: 'Travel to work' },
     { start: 30, duration: 30, title: 'Plan day' },
@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
     { start: 370, duration: 45, title: 'Follow up with designer' },
     { start: 405, duration: 30, title: 'Push up brunch' },
   ];
+  document.querySelectorAll('form').forEach((item) => {
+    item.addEventListener('submit', (e) => {
+      e.preventDefault();
+    });
+  });
 
   const cElem = (tag, cName, text) => {
     const elem = document.createElement(tag);
@@ -33,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const render__times = gElem('.render__times');
 
   const renderTime = (start, end, time) => {
-    for (let i = 0; i <= time; i++) {
+    for (let i = 1; i <= time; i++) {
       let time;
       if (i < 6) {
         time = i + start;
@@ -49,42 +54,164 @@ document.addEventListener('DOMContentLoaded', () => {
       render__times.append(halfAnHour);
     }
   };
-  const timesTemplate = (time) => {
-    const current__time = cElem('div', 'current__time');
-    const current__item = cElem('div', 'current__item');
-    const current__text = cElem('div', 'current__text', `${time.title}`);
-    const container = cElem('div', 'current__times');
-    const close__time = cElem('div', 'close__time', `x`);
-    container.style.height = `${time.duration * 2}px`;
-    current__item.append(current__text, close__time);
-    container.append(current__time, current__item);
-    container.style.top = `${time.start * 2}px`;
+  renderTime(7, 5, 10);
 
-    // const template = `
-    //   <div class="current__time"></div>
-    //   <div class="current__item" style="height: ${time.duration * 2}px">
-    //     <div class="current__text">${time.title}</div>
-    //     <div class="close__time">
-    //       &times;
-    //     </div>
-    //   </div>
-    // `;
-    // container.innerHTML = template;
-    return container;
+  const content = document.querySelector('.content');
+  const changeName = document.querySelector('.edit__name');
+  const confirmBtnRename = document.querySelector('.edit__events .confirm__rename');
+  const handleConfirm = (e) => {
+    const currentTime = timesContainer.querySelector('.current__times[data-target]');
+    if (!changeName.value.trim().toLowerCase()) {
+      document.querySelector('.edit__events').style.border = '1px solid red';
+      alert('Name cannot be empty');
+      return;
+    } else {
+      document.querySelector('.edit__events').style.border = '1px solid #2e2e2e';
+    }
+    currentTime.querySelector('.current__text').textContent = changeName.value;
+    changeName.value = '';
+    currentTime.removeAttribute('data-target');
+    document.querySelector('.edit__events').style.display = 'none';
   };
-  const renderTimes = (arr) => {
-    const renderResult = arr.map((item) => timesTemplate(item));
-    timesContainer.clear().add(renderResult);
-    renderTime(8, 5, 10);
+  confirmBtnRename.addEventListener('click', handleConfirm);
+
+  const handleEdit = (e) => {
+    const target = e.target;
+    if (target.className != 'current__times' && target.className != 'current__text' && target.className != 'current__item') {
+      return;
+    }
+    content.querySelector('.edit__events').style.display = 'block';
+    changeName.focus();
+    timesContainer.querySelectorAll('.current__times').forEach((item) => {
+      item.removeAttribute('data-target');
+    });
+    target.closest('.current__times').setAttribute('data-target', Math.floor(Math.random() * 555));
   };
-  renderTimes(times);
+  content.addEventListener('click', handleEdit, true);
+
+  const deleteBtn = document.querySelector('.delete__event');
+  const handleDelete = (e) => {
+    if (changeName.value.trim().toLowerCase()) {
+      alert('You cant delete event with filled field');
+      return;
+    }
+    timesContainer.querySelector('.current__times[data-target]').remove();
+    document.querySelector('.edit__events').style.display = 'none';
+    document.querySelector('.edit__events').style.border = '1px solid #2e2e2e';
+  };
+  deleteBtn.addEventListener('click', handleDelete);
+
+  class MainEvent {
+    constructor() {
+      this.newProperties = [];
+      this.addNewProperties();
+      this.createNewEvent();
+      this.renderTimes(this.newProperties);
+    }
+
+    addNewProperties() {
+      BASE_MODEL_DATA.forEach((item) => {
+        this.newProperties.push({
+          ...item,
+          isCompare: false,
+          width: 100,
+        });
+      });
+
+      // for (let i = 0; i < this.newProperties.length; i++) {
+      //   const previous = this.newProperties[i - 1];
+      //   const element = this.newProperties[i];
+      //   const next = this.newProperties[i + 1];
+      //   if(element.start) {
+      //   }
+      // }
+      this.newProperties.forEach((item, i, array) => {
+        const { start, duration, width, isCompare } = item;
+
+        if (duration) {
+          // item.width = width / 2;
+          // item.isCompare = !isCompare
+        }
+        console.log(item);
+      });
+    }
+    // пробежатьеще раз по массиву и сдетьа проверки
+    timesTemplate(time) {
+      const current__item = cElem('div', 'current__item');
+      const current__text = cElem('div', 'current__text', `${time.title}`);
+      const container = cElem('div', 'current__times');
+      container.style.top = `${time.start * 2}px`;
+      container.style.right = `${time.isCompare ? 0 : ''}`;
+      container.style.height = `${time.duration * 2}px`;
+      container.style.width = `${time.width}%`;
+      current__item.append(current__text);
+      container.append(current__item);
+      return container;
+    }
+    renderTimes(arr) {
+      const renderResult = arr.map((item) => this.timesTemplate(item));
+      timesContainer.clear().add(renderResult);
+    }
+    splitFormTime(item, hoursDay = 0) {
+      let [time, duration] = item.split(':');
+      return +time * 60 - hoursDay + +duration;
+    }
+    createNewEvent() {
+      const confrimBtnNew = document.querySelector('.new__events .new__changes');
+      const inputNewName = document.querySelector('.new_event_name');
+      const newStartTime = document.querySelector('.new_start_time');
+      const newDurationTime = document.querySelector('.new_duration_time');
+      const newColor = document.querySelector('.new_color');
+      const handleConfirmEvent = (e) => {
+        console.log(newStartTime.value);
+        if (!inputNewName.value.trim()) {
+          alert('Set new name');
+          return false;
+        } else if (!newStartTime.value) {
+          alert('Set start time');
+          return false;
+        } else if (!newDurationTime.value) {
+          alert('Set duration time');
+          return false;
+        } else if (newStartTime.value == newDurationTime.value) {
+          alert('Right now you set same time');
+          return false;
+        } else if (
+          newStartTime.value < newStartTime.min ||
+          newStartTime.value > newStartTime.max ||
+          newDurationTime.value < newDurationTime.min ||
+          newDurationTime.value > newDurationTime.max
+        ) {
+          alert('You can set time at 8am and not more 5pm');
+          return false;
+        }
+
+        console.log(newColor.value);
+        let start = this.splitFormTime(newStartTime.value, 8 * 60);
+        let duration = this.splitFormTime(newDurationTime.value) - 8 * 60;
+        console.log(start);
+        console.log(duration);
+        for (let i = 0; i < this.newProperties.length; i++) {
+          const element = this.newProperties[i];
+          if (element.title.includes(inputNewName.value)) {
+            alert('This event already exists');
+            return false;
+          }
+        }
+        this.newProperties.push({
+          title: inputNewName.value,
+          start,
+          duration,
+          width: 100,
+          isCompare: false,
+        });
+        console.log(this.newProperties);
+        this.renderTimes(this.newProperties);
+      };
+      confrimBtnNew.addEventListener('click', handleConfirmEvent);
+    }
+  }
+
+  const mainEvent = new MainEvent();
+  console.log(mainEvent);
 });
-
-// const deleteEvent = (e) => {
-//   const target = e.target
-//   if(target.className == 'close__time') {
-//     target.closest('.current__times').remove()
-//   }
-// }
-
-// document.querySelector('.times__container').addEventListener('click',deleteEvent)

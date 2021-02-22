@@ -14,10 +14,45 @@
 <body>
   <div class="content">
     <div class="render__times"></div>
-    <div class="times__container">
-    </div>
+    <div class="times__container"></div>
+
+    <form class="edit__events">
+      <input type="text" placeholder="Rename current event " class="edit__name">
+      <div class="confirm__rename">
+       Confirm rename
+      </div>
+      <div class="delete__event">
+        Delete Event
+      </div>
+    </form>
+
+    <form  class="new__events">
+      <p>Event Name</p>
+      <div class="form__group">
+        <input type="text" placeholder="Name" class="new_event_name">
+      </div>
+      <p>Start Time</p>
+      <div class="form__group">
+        <input type="time" min="08:00" max="17:00" class="new_start_time">
+      </div>
+      <p>Duration</p>
+
+      <div class="form__group">
+        <input type="time" min="08:00" max="17:00" class="new_duration_time">
+      </div>
+      <!-- <p>Color</p>
+      <div class="form__group">
+        <input type="color" class="new_color">
+      </div> -->
+
+      <button class="new__changes">Confirm</и>
+    </form>
+  
+   
+
   </div>
 
+  
   
 
   <script src="index.js"></script>

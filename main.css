@@ -21,7 +21,6 @@ body {
           flex-direction: column;
   min-height: 100%;
   min-width: 320px;
-  line-height: 1.5;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
 }
@@ -56,6 +55,8 @@ input,
 button,
 textarea {
   background: none;
+  font-family: inherit;
+  font-size: inherit;
   outline: none;
   border: none;
 }
@@ -80,6 +81,93 @@ li {
   position: relative;
 }
 
+.new__events {
+  position: fixed;
+  right: 15%;
+  top: 5%;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  min-height: 200px;
+  width: 200px;
+  padding: 10px;
+}
+
+.new__events p {
+  text-align: center;
+}
+
+.new__events .form__group {
+  margin-bottom: 15px;
+}
+
+.new__events .form__group input {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5px;
+  border: 1px solid #2e2e2e;
+  height: 40px;
+  width: 100%;
+}
+
+.new__events .form__group input:focus {
+  border-color: #afaeae;
+}
+
+.new__events .new__changes {
+  background-color: #e2e2e2;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.new__events .new__changes:hover {
+  background-color: #c9c9c9;
+}
+
+.edit__events {
+  display: none;
+  border-radius: 5px;
+  border: 1px solid #2e2e2e;
+  overflow: hidden;
+  width: 200px;
+  position: fixed;
+  left: 15%;
+  top: 5%;
+}
+
+.edit__events .edit__name {
+  padding: 10px;
+  width: 100%;
+}
+
+.edit__events .confirm__rename {
+  background-color: #009c2f;
+  color: #fff;
+  text-align: center;
+  font-size: 15px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.edit__events .confirm__rename:hover {
+  background-color: #00b637;
+}
+
+.edit__events .delete__event {
+  background-color: #d61717;
+  color: #fff;
+  text-align: center;
+  font-size: 15px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.edit__events .delete__event:hover {
+  background-color: #e72020;
+}
+
 .render__times {
   position: absolute;
   width: 100%;
@@ -93,6 +181,7 @@ li {
 .current__times {
   position: absolute;
   background: #E2ECF5;
+  cursor: pointer;
 }
 
 .current__time {
@@ -127,6 +216,30 @@ li {
   background-color: #d8dcdf;
 }
 
+.close__time {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  font-size: 15px;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  background: #979191;
+}
+
+.close__time:hover {
+  background: #b0abab;
+}
+
 .current__item {
   padding: 7px 5px 7px 5px;
 }
@@ -142,39 +255,8 @@ li {
   top: 0;
 }
 
-.current__item:hover .close__time {
-  opacity: 1;
-  visibility: visible;
-}
-
 .current__item .current__text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.current__item .close__time {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  position: absolute;
-  right: -50px;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  font-size: 22px;
-  cursor: pointer;
-  width: 40px;
-  background: #979191;
-  display: none;
-}
-
-.current__item .close__time:hover {
-  background: #b0abab;
 }
